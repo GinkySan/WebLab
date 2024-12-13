@@ -4,31 +4,42 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
- 
-  const handleLogin = async (e) => {
+type UserRole = "user" | "admin";
+
+const Register: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<UserRole>("user"); 
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
+
+  
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post("http://localhost:3000/auth/register", {
         username: email,
         password: password,
+        role: role,
       });
 
       
-      localStorage.setItem("token", response.data.token);
+      setSuccess(true);
+      setError("");
 
       
-      window.location.href = "/profile";
+      setEmail("");
+      setPassword("");
+      setRole("user");
     } catch (err) {
-      
-      setError("Неверный email или пароль");
+
+      setError("Ошибка регистрации. Возможно, пользователь с таким email уже существует.");
+      setSuccess(false);
     }
   };
 
@@ -38,11 +49,11 @@ const Login = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold text-gray-800">
-              Вход в систему
+              Регистрация
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form className="space-y-6" onSubmit={handleLogin}>
+            <form className="space-y-6" onSubmit={handleRegister}>
               {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-700">
@@ -104,29 +115,45 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Ошибка */}
+              {/* Выбор роли */}
+              <div className="space-y-2">
+                <Label htmlFor="role" className="text-gray-700">
+                  Роль
+                </Label>
+                <Select value={role} onValueChange={(value: UserRole) => setRole(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Выберите роль" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="user">Пользователь</SelectItem>
+                    <SelectItem value="admin">Администратор</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               {error && (
                 <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
+
+              {success && (
+                <div className="text-green-500 text-sm text-center">
+                  Регистрация прошла успешно!
+                </div>
               )}
 
               <Button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Войти
+                Зарегистрироваться
               </Button>
 
+              
               <div className="text-center space-y-2">
-                <a
-                  href="/forgot-password"
-                  className="text-blue-500 hover:underline"
-                >
-                  Забыли пароль?
-                </a>
                 <p className="text-gray-600">
-                  Нет аккаунта?{" "}
-                  <a href="/register" className="text-blue-500 hover:underline">
-                    Зарегистрироваться
+                  Уже есть аккаунт?{" "}
+                  <a href="/login" className="text-blue-500 hover:underline">
+                    Войти
                   </a>
                 </p>
               </div>
@@ -138,4 +165,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

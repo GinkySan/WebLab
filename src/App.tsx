@@ -9,6 +9,7 @@ import Courses from "./pages/Courses";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import Register from "./pages/Register"; 
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} /> 
             </Routes>
           </div>
         </div>

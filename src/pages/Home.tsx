@@ -84,7 +84,7 @@ const Home = () => {
 <footer className="bg-gray-900 text-white py-12">
   <div className="container mx-auto px-4">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {/* Колонка 1: О компании */}
+
       <div>
         <h3 className="font-heading text-xl font-semibold mb-4">О компании</h3>
         <p className="text-gray-400">
@@ -102,7 +102,6 @@ const Home = () => {
         </p>
       </div>
 
-      {/* Колонка 2: Ссылки */}
       <div>
         <h3 className="font-heading text-xl font-semibold mb-4">Ссылки</h3>
         <ul className="text-gray-400">
@@ -124,7 +123,6 @@ const Home = () => {
         </ul>
       </div>
 
-      {/* Колонка 3: Социальные сети */}
       <div>
         <h3 className="font-heading text-xl font-semibold mb-4">Социальные сети</h3>
         <div className="flex space-x-4">
